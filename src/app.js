@@ -9,7 +9,8 @@ require('dotenv').config();
 app.use(morgan('dev')); // Ghi log các yêu cầu
 app.use(helmet()); // Bảo mật HTTP headers
 app.use(compression()); // Nén phản hồi
-
+app.use(express.json());  // 🔥 Quan trọng! Xử lý JSON body
+app.use(express.urlencoded({ extended: true })); // (Tùy chọn) Hỗ trợ form data
 // kết nối dbs
 require('./dbs/initMongoDb.lv2.js');
 const { countConnect, checkOverload } = require('./helpers/check.Connect.js');
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
         data: strCompress.repeat(100000),
     });
 });
-app.use('/api/v1', require('./routes/index.js'));
+app.use('/', require('./routers/index.js'));
 // Middleware xử lý lỗi
 app.use((err, req, res, next) => {
     console.error(err.stack);

@@ -35,7 +35,7 @@ class AccessService {
         if (!foundShop) {
             throw new BadRequestError({ message: 'Shop not registered' });
         }
-
+        console.log("foundShop : ", foundShop);
         //2.
         const matchPassword = await bcrypt.compare(password, foundShop.password);
         if (!matchPassword) {
