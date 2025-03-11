@@ -3,6 +3,7 @@ const app = express();
 const helmet = require('helmet');
 const morgan = require('morgan');
 const compression = require('compression');
+// const router = require('./routers/index.js');
 require('dotenv').config();
 // Khởi tạo middleware
 app.use(morgan('dev')); // Ghi log các yêu cầu
@@ -15,6 +16,8 @@ const { countConnect, checkOverload } = require('./helpers/check.Connect.js');
 countConnect();
 checkOverload();
 // Định nghĩa routes cho ứng dụng
+// app.use("/", router);
+
 app.get('/', (req, res) => {
     const strCompress = 'Hello World';
     return res.status(200).json({
@@ -22,7 +25,7 @@ app.get('/', (req, res) => {
         data: strCompress.repeat(100000),
     });
 });
-
+app.use('/api/v1', require('./routes/index.js'));
 // Middleware xử lý lỗi
 app.use((err, req, res, next) => {
     console.error(err.stack);

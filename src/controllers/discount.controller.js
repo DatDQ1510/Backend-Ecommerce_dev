@@ -23,10 +23,12 @@ class DiscountController {
 
             message: 'get list of drafts successfully',
             metadata: await DiscountService.getALLProductWithDiscountCode(
-                { payload: { code: code, shopId: shopId, limit : 50, page : 1 } })
+                { payload: { code: code, shopId: shopId, limit: 50, page: 1 } })
         }).send(res);
         console.log(1 + 1);
     }
 
 }
+
 module.exports = DiscountController;
+    
