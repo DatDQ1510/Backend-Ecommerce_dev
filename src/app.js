@@ -13,6 +13,12 @@ app.use(express.json());  // 🔥 Quan trọng! Xử lý JSON body
 app.use(express.urlencoded({ extended: true })); // (Tùy chọn) Hỗ trợ form data
 // kết nối dbs
 require('./dbs/initMongoDb.lv2.js');
+const initRedis = require('./dbs/initRedis.js');
+
+initRedis.initRedis();
+// kiểm tra kết nối redis
+
+
 const { countConnect, checkOverload } = require('./helpers/check.Connect.js');
 countConnect();
 checkOverload();

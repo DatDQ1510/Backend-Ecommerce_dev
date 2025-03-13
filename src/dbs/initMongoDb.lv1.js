@@ -1,7 +1,7 @@
 'use strict'
 const mongose = require('mongoose');
 
-const connectString = 'mongodb://localhost:27017/shop'
+const connectString = process.env.LOCAL_HOST_MONGO
 
 mongose.connect(connectString).then(() => {
     console.log('Connected to MongoDB');

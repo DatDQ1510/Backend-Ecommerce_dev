@@ -2,13 +2,14 @@
 'use strict'
 
 const mongose = require('mongoose');
-const { use } = require('../app');
 
-const connectString = 'mongodb://localhost:27017/shop'
+
+const connectString = process.env.LOCAL_HOST_MONGO
 
 // default maxPoolSize = 100
-mongose.connect(connectString, {maxPoolSize : 50}).then(() => {
+mongose.connect(connectString, { maxPoolSize: 50 }).then(() => {
     console.log('Connected to MongoDB');
+   
 }).catch((err) => {
     console.log('Error connecting to MongoDB', err);
 });
@@ -24,7 +25,6 @@ class Database {
             mongose.set("debug", { color: true });
         }
         mongose.connect(connectString).then(() => {
-            console.log('Connected to MongoDB, lv21313123');
         }).catch((err) => {
             console.log('Error connecting to MongoDB', err);
         });
