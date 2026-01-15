@@ -2,6 +2,7 @@
 
 const { BadRequestError } = require('../core/error.response');
 const { product, clothing, electronics } = require('../models/product.model.js');
+const { pushNotiToSystem } = require('./notification.service.js');
 
 
 class ProductFactory {
@@ -33,11 +34,23 @@ class Product {
     }
 
     async createProduct(product_id) {
-        console.log('📌 Creating Product with:', this);
-        return await product.create({
+        console.log('📌 Product ID: Dinh QUoc Dat',);
+        await pushNotiToSystem({
+            type: 'SHOP-001',
+            receiverId: 1,
+            senderId: this.product_shop,
+            options: {
+                product_name: this.product_name,
+                shop_name: this.product_shop
+            }
+        })
+
+        const newProduct = await product.create({
             ...this,
             _id: product_id
         });
+
+        return newProduct;
     }
 }
 
@@ -61,7 +74,6 @@ class Clothing extends Product {
 
 class Electronics extends Product {
     async createProduct() {
-        console.log('📌 Electronics Attributes:', this.product_attributes);
         const newElectronic = await electronics.create({
             ...this.product_attributes,
             product_shop: this.product_shop
@@ -69,7 +81,7 @@ class Electronics extends Product {
         if (!newElectronic) throw new BadRequestError({ message: 'Create electronic failed' });
 
         const newProduct = await super.createProduct(newElectronic._id);
-        console.log('📌 New Product:', newProduct);
+
         if (!newProduct) throw new BadRequestError({ message: 'Create product failed' });
         return newProduct;
     }

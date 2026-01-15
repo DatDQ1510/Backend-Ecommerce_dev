@@ -12,7 +12,7 @@ const { findAllDraftsForOneShop,
     findProduct
 } = require('../models/repositories/product.repo.js');
 const { createInventory } = require('../models/repositories/inventory.repo.js');
-
+const { pushNotiToSystem } = require('./notification.service.js');
 class ProductFactory {
 
     /*
@@ -111,7 +111,7 @@ class Product {
     async createProduct(product_id) {
         console.log('📌 Creating Product with:', this);
         const newProduct = await product.create({ ...this, _id: product_id });
-        console.log(1 + 1)
+
         if (newProduct) {
             await createInventory({
                 productId: newProduct._id,
@@ -119,7 +119,15 @@ class Product {
                 stock: newProduct.product_quantity
             })
         }
-        console.log(2 + 2)
+        await pushNotiToSystem({
+            type: 'SHOP-001',
+            receiverId: 1,
+            senderId: this.product_shop,
+            options: {
+                product_name: this.product_name,
+                shop_name: this.product_shop
+            }
+        })
 
         return newProduct;
 

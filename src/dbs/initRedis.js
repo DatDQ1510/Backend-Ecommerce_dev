@@ -1,6 +1,5 @@
 'use strict';
 
-const { connect } = require('mongoose');
 const redis = require('redis');
 require('dotenv').config();
 
@@ -21,15 +20,16 @@ const REDIS_CONNECT_MESSAGE = {
     }
 };
 
-// 🔹 Thêm thông tin Redis Cloud
+
+const port_redis = Number(process.env.PORT_REDIS)
 const REDIS_CONFIG = {
     socket: {
-        host: process.env.HOST_REDIS, // Thay bằng host của bạn
-        port: 13518, // Thay bằng port của bạn
-        reconnectStrategy: (retries) => Math.min(retries * 100, 3000), // Chiến lược thử lại
+        host: process.env.HOST_REDIS,
+        port: port_redis,
+        reconnectStrategy: (retries) => Math.min(retries * 100, 3000),
         connectTimeout: REDIS_CONNECT_TIMEOUT
     },
-    password: process.env.REDIS_PASSWORD
+    password: password_redis
 };
 
 const handleEventConnection = ({ connectionRedis }) => {
@@ -58,15 +58,15 @@ const handleTimeoutError = () => {
 }
 const initRedis = async () => {
     try {
-        console.log(process.env.HOST_REDIS)
+        console.log(`port redis:: ${port_redis}`);
         const instanceRedis = redis.createClient(REDIS_CONFIG);
 
         await instanceRedis.connect();
 
         client.instanceConnect = instanceRedis;
+        
         handleEventConnection({ connectionRedis: instanceRedis });
         console.log('🔌 Redis connected');
-        console.log('🚀 ~ file: initRedis.js ~ line 6 ~ process.env.REDIS_PASSWORD', password_redis);
     } catch (err) {
         console.error(REDIS_CONNECT_MESSAGE.message.vn, err);
     }

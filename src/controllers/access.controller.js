@@ -2,7 +2,7 @@
 
 const { model } = require("mongoose");
 const AccessService = require("../services/access.service");
-const { OK, CREATED, SuccessResponse} = require("../core/success.response");
+const { OK, CREATED, SuccessResponse } = require("../core/success.response");
 const KeyTokenService = require("../services/keyToken.service");
 class AccessController {
     logOut = async (req, res, next) => {
@@ -13,11 +13,11 @@ class AccessController {
     }
     logIn = async (req, res, next) => {
         new SuccessResponse({
-            metadata : await AccessService.lo
-            gIn(req.body)
+            metadata: await AccessService.logIn(req.body)
+
         }).send(res);
     }
-     signUp = async (req, res, next) => {
+    signUp = async (req, res, next) => {
 
         new CREATED({
             message: ' Registered OK !',

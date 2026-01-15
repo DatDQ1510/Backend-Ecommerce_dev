@@ -1,7 +1,7 @@
 'use strict'
 
 const { find } = require("lodash");
-const { BadRequestError } = require("../core/error.response");
+const { BadRequestError } = require("../core/error.response")   ;
 const { discount } = require("../models/discount.model");
 const { findDiscountByCode, convertToObjectId, getSelectDiscountByShop,
     getUnSelectDiscountByShop } = require("../models/repositories/discount.repo");
@@ -17,6 +17,7 @@ const { findAllProducts } = require("../models/repositories/product.repo");
 */
 
 class DiscountService {
+
     static async createDiscountCode({ payload }) {
         // generate discount code
         const {

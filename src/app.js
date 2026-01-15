@@ -11,6 +11,8 @@ app.use(helmet()); // Bảo mật HTTP headers
 app.use(compression()); // Nén phản hồi
 app.use(express.json());  // 🔥 Quan trọng! Xử lý JSON body
 app.use(express.urlencoded({ extended: true })); // (Tùy chọn) Hỗ trợ form data
+
+
 // kết nối dbs
 require('./dbs/initMongoDb.lv2.js');
 const initRedis = require('./dbs/initRedis.js');
@@ -18,6 +20,11 @@ const initRedis = require('./dbs/initRedis.js');
 initRedis.initRedis();
 // kiểm tra kết nối redis
 
+//test pub/sub redis
+require('./tests/inventory.test.js');
+const productTest = require('./tests/product.test.js');
+
+productTest.purcharseProduct("product:001", 10);
 
 const { countConnect, checkOverload } = require('./helpers/check.Connect.js');
 countConnect();
